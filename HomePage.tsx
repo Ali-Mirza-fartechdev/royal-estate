@@ -91,13 +91,16 @@ export default function HomePage() {
   const featured = properties.some((p) => p.featured) ? properties.filter((p) => p.featured) : properties
   const shown = featured.slice(0, 3)
   const markets = (neighborhoods.some((n) => n.featured) ? neighborhoods.filter((n) => n.featured) : neighborhoods).slice(0, 3)
-  const slides: Slide[] = shown.length
-    ? shown.map((p) => ({ image: p.hero, alt: `${p.name}, ${p.city}`, label: p.name }))
-    : [
-        { image: img.blackwood, alt: 'Modern residence at dusk', label: 'Dusk Residence' },
-        { image: img.glass, alt: 'Glass residence at twilight', label: 'Glass Residence' },
-        { image: img.oak, alt: 'Residence among oak trees', label: 'Oak Enclave' },
-      ]
+  const defaults: Slide[] = [
+    { image: img.blackwood, alt: 'Modern residence at dusk', label: 'Dusk Residence' },
+    { image: img.glass, alt: 'Glass residence at twilight', label: 'Glass Residence' },
+    { image: img.oak, alt: 'Residence among oak trees', label: 'Oak Enclave' },
+  ]
+  // Property photos first; pad with atmospheric defaults so the hero always has three frames.
+  const slides: Slide[] = [
+    ...shown.map((p) => ({ image: p.hero, alt: `${p.name}, ${p.city}`, label: p.name })),
+    ...defaults,
+  ].slice(0, 3)
   return (
     <Page title="Elite Luxury Architectural Real Estate" className="home upper-h">
       {/* ---------------- Hero ---------------- */}
